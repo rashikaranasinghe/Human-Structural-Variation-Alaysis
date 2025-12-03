@@ -1,0 +1,664 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+<meta name="author" content="Rashika Ranasinghe" />
+
+<meta name="date" content="2025-11-24" />
+
+<title>GO_Enrichment_Analysis</title>
+
+<script src="site_libs/header-attrs-2.30/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/readable.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/jqueryui-1.13.2/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<link href="site_libs/pagedtable-1.1/css/pagedtable.css" rel="stylesheet" />
+<script src="site_libs/pagedtable-1.1/js/pagedtable.js"></script>
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "\e258";
+  font-family: 'Glyphicons Halflings';
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">GO Enrichment Analysis</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li>
+  <a href="about.html">About</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+<h1 class="title toc-ignore">GO_Enrichment_Analysis</h1>
+<h4 class="author">Rashika Ranasinghe</h4>
+<h4 class="date">2025-11-24</h4>
+
+</div>
+
+
+<p>Perform a GO Enrichment Analysis for the genes in the biggest
+inversion in the human genome, chr8p23.1, approximately 4.5 to 12
+megabases (Mb) in size.</p>
+<pre class="r"><code># Load the required libraries
+library(biomaRt)</code></pre>
+<pre><code>## Warning: package &#39;biomaRt&#39; was built under R version 4.4.2</code></pre>
+<pre class="r"><code>library(gggenes)
+library(ggplot2)</code></pre>
+<pre><code>## Warning: package &#39;ggplot2&#39; was built under R version 4.4.3</code></pre>
+<pre class="r"><code>library(dplyr)</code></pre>
+<pre><code>## 
+## Attaching package: &#39;dplyr&#39;</code></pre>
+<pre><code>## The following object is masked from &#39;package:biomaRt&#39;:
+## 
+##     select</code></pre>
+<pre><code>## The following objects are masked from &#39;package:stats&#39;:
+## 
+##     filter, lag</code></pre>
+<pre><code>## The following objects are masked from &#39;package:base&#39;:
+## 
+##     intersect, setdiff, setequal, union</code></pre>
+<pre class="r"><code>library(org.Hs.eg.db)</code></pre>
+<pre><code>## Loading required package: AnnotationDbi</code></pre>
+<pre><code>## Loading required package: stats4</code></pre>
+<pre><code>## Loading required package: BiocGenerics</code></pre>
+<pre><code>## 
+## Attaching package: &#39;BiocGenerics&#39;</code></pre>
+<pre><code>## The following objects are masked from &#39;package:dplyr&#39;:
+## 
+##     combine, intersect, setdiff, union</code></pre>
+<pre><code>## The following objects are masked from &#39;package:stats&#39;:
+## 
+##     IQR, mad, sd, var, xtabs</code></pre>
+<pre><code>## The following objects are masked from &#39;package:base&#39;:
+## 
+##     anyDuplicated, aperm, append, as.data.frame, basename, cbind,
+##     colnames, dirname, do.call, duplicated, eval, evalq, Filter, Find,
+##     get, grep, grepl, intersect, is.unsorted, lapply, Map, mapply,
+##     match, mget, order, paste, pmax, pmax.int, pmin, pmin.int,
+##     Position, rank, rbind, Reduce, rownames, sapply, saveRDS, setdiff,
+##     table, tapply, union, unique, unsplit, which.max, which.min</code></pre>
+<pre><code>## Loading required package: Biobase</code></pre>
+<pre><code>## Welcome to Bioconductor
+## 
+##     Vignettes contain introductory material; view with
+##     &#39;browseVignettes()&#39;. To cite Bioconductor, see
+##     &#39;citation(&quot;Biobase&quot;)&#39;, and for packages &#39;citation(&quot;pkgname&quot;)&#39;.</code></pre>
+<pre><code>## Loading required package: IRanges</code></pre>
+<pre><code>## Warning: package &#39;IRanges&#39; was built under R version 4.4.2</code></pre>
+<pre><code>## Loading required package: S4Vectors</code></pre>
+<pre><code>## 
+## Attaching package: &#39;S4Vectors&#39;</code></pre>
+<pre><code>## The following objects are masked from &#39;package:dplyr&#39;:
+## 
+##     first, rename</code></pre>
+<pre><code>## The following object is masked from &#39;package:utils&#39;:
+## 
+##     findMatches</code></pre>
+<pre><code>## The following objects are masked from &#39;package:base&#39;:
+## 
+##     expand.grid, I, unname</code></pre>
+<pre><code>## 
+## Attaching package: &#39;IRanges&#39;</code></pre>
+<pre><code>## The following objects are masked from &#39;package:dplyr&#39;:
+## 
+##     collapse, desc, slice</code></pre>
+<pre><code>## 
+## Attaching package: &#39;AnnotationDbi&#39;</code></pre>
+<pre><code>## The following object is masked from &#39;package:dplyr&#39;:
+## 
+##     select</code></pre>
+<pre><code>## </code></pre>
+<pre class="r"><code>library(clusterProfiler)</code></pre>
+<pre><code>## Warning: package &#39;clusterProfiler&#39; was built under R version 4.4.2</code></pre>
+<pre><code>## clusterProfiler v4.14.6 Learn more at https://yulab-smu.top/contribution-knowledge-mining/
+## 
+## Please cite:
+## 
+## T Wu, E Hu, S Xu, M Chen, P Guo, Z Dai, T Feng, L Zhou, W Tang, L Zhan,
+## X Fu, S Liu, X Bo, and G Yu. clusterProfiler 4.0: A universal
+## enrichment tool for interpreting omics data. The Innovation. 2021,
+## 2(3):100141</code></pre>
+<pre><code>## 
+## Attaching package: &#39;clusterProfiler&#39;</code></pre>
+<pre><code>## The following object is masked from &#39;package:AnnotationDbi&#39;:
+## 
+##     select</code></pre>
+<pre><code>## The following object is masked from &#39;package:IRanges&#39;:
+## 
+##     slice</code></pre>
+<pre><code>## The following object is masked from &#39;package:S4Vectors&#39;:
+## 
+##     rename</code></pre>
+<pre><code>## The following object is masked from &#39;package:biomaRt&#39;:
+## 
+##     select</code></pre>
+<pre><code>## The following object is masked from &#39;package:stats&#39;:
+## 
+##     filter</code></pre>
+<pre class="r"><code>library(enrichplot)</code></pre>
+<pre><code>## Warning: package &#39;enrichplot&#39; was built under R version 4.4.2</code></pre>
+<pre><code>## enrichplot v1.26.6 Learn more at https://yulab-smu.top/contribution-knowledge-mining/
+## 
+## Please cite:
+## 
+## Guangchuang Yu, Qing-Yu He. ReactomePA: an R/Bioconductor package for
+## reactome pathway analysis and visualization. Molecular BioSystems.
+## 2016, 12(2):477-479</code></pre>
+<pre class="r"><code>library(Gviz)</code></pre>
+<pre><code>## Loading required package: GenomicRanges</code></pre>
+<pre><code>## Loading required package: GenomeInfoDb</code></pre>
+<pre><code>## Warning: package &#39;GenomeInfoDb&#39; was built under R version 4.4.2</code></pre>
+<pre><code>## Loading required package: grid</code></pre>
+<p>Pull genes that are on the inversion region from Ensembl</p>
+<pre class="r"><code># Define inversion coordinates
+chromosome &lt;- &quot;8&quot;
+inv_start &lt;- 7370695
+inv_end   &lt;- 11678224
+
+# Connect to Ensembl
+mart &lt;- useEnsembl(biomart = &quot;genes&quot;, dataset = &quot;hsapiens_gene_ensembl&quot;)
+
+# Query Ensembl for genes in the inversion
+genes &lt;- getBM(
+  attributes = c(&quot;ensembl_gene_id&quot;, &quot;external_gene_name&quot;, &quot;description&quot;,
+    &quot;chromosome_name&quot;, &quot;start_position&quot;, &quot;end_position&quot;, &quot;gene_biotype&quot;),
+  filters = c(&quot;chromosome_name&quot;, &quot;start&quot;, &quot;end&quot;),
+  values = list(chromosome, inv_start, inv_end),
+  mart = mart
+)</code></pre>
+<p>Make a diagram of all the genes on the inversion region</p>
+<pre class="r"><code># Prepare the data
+gene_plot_df &lt;- genes
+gene_plot_df$gene_name &lt;- gene_plot_df$external_gene_name
+gene_plot_df$start &lt;- gene_plot_df$start_position
+gene_plot_df$end   &lt;- gene_plot_df$end_position
+
+# Plot genes along the chromosome
+ggplot(gene_plot_df, aes(
+  xmin = start,
+  xmax = end,
+  y = gene_biotype,     # improvement: separate rows by biotype
+  fill = gene_biotype,
+  label = gene_name
+)) +
+  geom_gene_arrow(arrowhead_width = unit(2, &quot;mm&quot;)) +
+  geom_text(aes(x = (start + end)/2, y = as.numeric(as.factor(gene_biotype)) + 0.2),
+            size = 2, angle = 90, hjust = 0) +
+  scale_fill_brewer(palette = &quot;Set3&quot;) +
+  ggtitle(&quot;Genes in 8p23.1 Inversion - Human Genome&quot;) +
+  theme_bw() +   labs(x = &quot;Chromosomal Position&quot;)   +
+  theme(legend.position = &quot;bottom&quot;)</code></pre>
+<pre><code>## Warning in RColorBrewer::brewer.pal(n, pal): n too large, allowed maximum for palette Set3 is 12
+## Returning the palette you asked for with that many colors</code></pre>
+<p><img src="index_files/figure-html/unnamed-chunk-2-1.png" width="960" /></p>
+<p>GO enrichment analysis (For all biotypes)</p>
+<pre class="r"><code># Convert to ENTREZ
+entrez_ids &lt;- bitr(
+  genes$external_gene_name,
+  fromType = &quot;SYMBOL&quot;,
+  toType = &quot;ENTREZID&quot;,
+  OrgDb = org.Hs.eg.db
+)$ENTREZID</code></pre>
+<pre><code>## &#39;select()&#39; returned 1:1 mapping between keys and columns</code></pre>
+<pre><code>## Warning in bitr(genes$external_gene_name, fromType = &quot;SYMBOL&quot;, toType =
+## &quot;ENTREZID&quot;, : 3.6% of input gene IDs are fail to map...</code></pre>
+<pre class="r"><code>enrichFrame &lt;- enrichGO(
+  gene = entrez_ids,
+  OrgDb = org.Hs.eg.db,
+  keyType = &quot;ENTREZID&quot;,
+  ont = &quot;ALL&quot;,              
+  pvalueCutoff = 0.05,
+  readable = TRUE
+)
+
+# Save enrichment table
+#write.csv(as.data.frame(ego), &quot;GO_enrichment_chr8p23.1.csv&quot;, row.names = FALSE)</code></pre>
+<p>Plot the analysis results</p>
+<pre class="r"><code># 1. Bar plot
+barplot(enrichFrame,
+        x = &quot;GeneRatio&quot;, # plot the gene ratio = # gene of that enrichment / toal # genes
+        color = &quot;p.adjust&quot;,
+        title = &quot;GO Enrichment (n = 31)&quot;,
+        showCategory = 31, # plot all the GO enrichments
+        label_format = 80) + theme(
+plot.margin = margin(10, 1, 1, 10) # Top, Right, Bottom, Left margins in points
+)</code></pre>
+<pre><code>## Warning in fortify(object, showCategory = showCategory, by = x, ...): Arguments in `...` must be used.
+## ✖ Problematic argument:
+## • by = x
+## ℹ Did you misspell an argument name?</code></pre>
+<pre><code>## Warning: `aes_string()` was deprecated in ggplot2 3.0.0.
+## ℹ Please use tidy evaluation idioms with `aes()`.
+## ℹ See also `vignette(&quot;ggplot2-in-packages&quot;)` for more information.
+## ℹ The deprecated feature was likely used in the enrichplot package.
+##   Please report the issue at
+##   &lt;https://github.com/GuangchuangYu/enrichplot/issues&gt;.
+## This warning is displayed once every 8 hours.
+## Call `lifecycle::last_lifecycle_warnings()` to see where this warning was
+## generated.</code></pre>
+<p><img src="index_files/figure-html/unnamed-chunk-4-1.png" width="960" /></p>
+<pre class="r"><code># 2. Dot plot
+dotplot(enrichFrame,
+        x = &quot;Count&quot;,
+        color = &quot;p.adjust&quot;,
+        title = &quot;GO Enrichment (n = 31)&quot;,
+        showCategory = 31,
+        label_format = 80) +
+  theme(plot.margin = margin(20, 20, 20, 20))</code></pre>
+<p><img src="index_files/figure-html/unnamed-chunk-5-1.png" width="960" />
+split enrichment results by ontology</p>
+<pre class="r"><code># make the enrichFrame object a dataframe 
+enrich_df &lt;- as.data.frame(enrichFrame)
+
+# make seperate vectors for each ontology group
+ego_BP &lt;- enrich_df %&gt;% filter(ONTOLOGY == &quot;BP&quot;)
+ego_CC &lt;- enrich_df %&gt;% filter(ONTOLOGY == &quot;CC&quot;)
+ego_MF &lt;- enrich_df %&gt;% filter(ONTOLOGY == &quot;MF&quot;)
+table(enrich_df$ONTOLOGY)</code></pre>
+<pre><code>## 
+## BP CC MF 
+## 20  2  9</code></pre>
+<pre class="r"><code># Plot the data
+dotplot(enrichFrame, split = &quot;ONTOLOGY&quot;) +
+  facet_grid(ONTOLOGY ~ ., scales = &quot;free&quot;,
+             labeller = labeller(ONTOLOGY =  c(&quot;BP&quot; = &quot;Biological Process&quot;,
+                                               &quot;CC&quot; = &quot;Cellular Component&quot;,
+                                               &quot;MF&quot; = &quot;Molecular Function&quot;))) +
+  ggtitle(&quot;GO Enrichment Separated by Ontology (BP, CC, MF)&quot;)</code></pre>
+<p><img src="index_files/figure-html/unnamed-chunk-6-1.png" width="768" /></p>
+<pre class="r"><code># 3. Category Netplot
+# Helpful to see which genes are involved in enriched pathways and genes that may belong to multiple annotation categories
+cnetplot(enrichFrame,
+         categorySize = &quot;pvalue&quot;,
+         showCategory = 31)</code></pre>
+<p><img src="index_files/figure-html/unnamed-chunk-7-1.png" width="960" /></p>
+
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+<script>
+$(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

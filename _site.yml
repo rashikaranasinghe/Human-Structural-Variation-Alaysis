@@ -1,0 +1,20 @@
+name: "GO_Enrichment_Analysis"
+title: "GO Enrichment Analysis"
+output_dir: "docs"
+
+navbar:
+  title: "GO Enrichment Analysis"
+  left:
+    - text: "Home"
+      href: index.html
+    - text: "About"
+      href: about.html
+
+output:
+  html_document:
+    theme: readable
+    toc: true
+    toc_depth: 3
+    toc_float: true
+    number_sections: false
+    df_print: paged

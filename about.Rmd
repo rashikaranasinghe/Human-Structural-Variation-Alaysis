@@ -1,0 +1,46 @@
+---
+title: "About This Project"
+output: html_document
+---
+
+### Overview
+
+This website presents a gene ontology (GO) enrichment analysis for the **largest known inversion in the human genome**-**chromosome 8p23.1** (approximately 4.5 Mb).  
+
+The analysis shown in this site includes:
+
+- Extracting genes located within the inversion region using **Ensembl (biomaRt)**  
+- Visualizing gene positions along the inverted genomic segment  
+- Performing GO enrichment using **clusterProfiler**  
+- Generating visual summaries of functional categories (BP, CC, MF)  
+- Displaying network-level connections among enriched pathways  
+
+This work is intended as a concise, reproducible demonstration of functional enrichment analysis for structural variant–associated gene sets.
+
+---
+
+### Background: 8p23.1 Inversion
+
+The 8p23.1 inversion spans over 4 Mb and is found in many global human populations.  
+It is a **paracentric inversion**, meaning it does not include the centromere.  
+This region contains several gene families of biological interest.
+
+Understanding functional patterns within this inversion helps identify potential adaptive, developmental, and regulatory features associated with its evolutionary history.
+
+---
+
+### Methods Summary
+
+The workflow used on this site:
+
+1. **Define inversion coordinates**  
+2. **Retrieve genes from Ensembl**  
+3. **Visualize gene structure with gggenes and Gviz**  
+4. **Convert gene IDs to ENTREZ IDs**  
+5. **Run GO enrichment (BP, CC, MF)**  
+6. **Generate bar plots, dot plots, and network graphs**
+
+These steps provide a reproducible pipeline for functional annotation of structural variant regions.
+
+---
+
