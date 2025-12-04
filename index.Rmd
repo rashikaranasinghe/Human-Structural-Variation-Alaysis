@@ -1,5 +1,5 @@
 ---
-title: "GO_Enrichment_Analysis"
+title: "GO Enrichment Analysis"
 output: html_document
 author: "Rashika Ranasinghe"
 date: "2025-11-24"
