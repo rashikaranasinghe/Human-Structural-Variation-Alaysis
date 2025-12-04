@@ -15,13 +15,13 @@
 
 <title>GO_Enrichment_Analysis</title>
 
-<script src="index_files/header-attrs-2.30/header-attrs.js"></script>
-<script src="index_files/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="site_libs/header-attrs-2.30/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<link href="index_files/bootstrap-3.3.5/css/readable.min.css" rel="stylesheet" />
-<script src="index_files/bootstrap-3.3.5/js/bootstrap.min.js"></script>
-<script src="index_files/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
-<script src="index_files/bootstrap-3.3.5/shim/respond.min.js"></script>
+<link href="site_libs/bootstrap-3.3.5/css/readable.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
 <style>h1 {font-size: 34px;}
        h1.title {font-size: 38px;}
        h2 {font-size: 30px;}
@@ -31,14 +31,14 @@
        h6 {font-size: 12px;}
        code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
        pre:not([class]) { background-color: white }</style>
-<script src="index_files/jqueryui-1.13.2/jquery-ui.min.js"></script>
-<link href="index_files/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
-<script src="index_files/tocify-1.9.1/jquery.tocify.js"></script>
-<script src="index_files/navigation-1.1/tabsets.js"></script>
-<link href="index_files/highlightjs-9.12.0/default.css" rel="stylesheet" />
-<script src="index_files/highlightjs-9.12.0/highlight.js"></script>
-<link href="index_files/pagedtable-1.1/css/pagedtable.css" rel="stylesheet" />
-<script src="index_files/pagedtable-1.1/js/pagedtable.js"></script>
+<script src="site_libs/jqueryui-1.13.2/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<link href="site_libs/pagedtable-1.1/css/pagedtable.css" rel="stylesheet" />
+<script src="site_libs/pagedtable-1.1/js/pagedtable.js"></script>
 
 <style type="text/css">
   code{white-space: pre-wrap;}
@@ -351,8 +351,9 @@ div.tocify {
 inversion in the human genome, chr8p23.1, approximately 4.5 to 12
 megabases (Mb) in size.</p>
 <pre class="r"><code># Load the required libraries
-library(biomaRt)
-library(gggenes)
+library(biomaRt)</code></pre>
+<pre><code>## Warning: package &#39;biomaRt&#39; was built under R version 4.4.2</code></pre>
+<pre class="r"><code>library(gggenes)
 library(ggplot2)</code></pre>
 <pre><code>## Warning: package &#39;ggplot2&#39; was built under R version 4.4.3</code></pre>
 <pre class="r"><code>library(dplyr)</code></pre>
@@ -382,19 +383,17 @@ library(ggplot2)</code></pre>
 <pre><code>## The following objects are masked from &#39;package:base&#39;:
 ## 
 ##     anyDuplicated, aperm, append, as.data.frame, basename, cbind,
-##     colnames, dirname, do.call, duplicated, eval, evalq, Filter,
-##     Find, get, grep, grepl, intersect, is.unsorted, lapply, Map,
-##     mapply, match, mget, order, paste, pmax, pmax.int, pmin,
-##     pmin.int, Position, rank, rbind, Reduce, rownames, sapply,
-##     saveRDS, setdiff, table, tapply, union, unique, unsplit,
-##     which.max, which.min</code></pre>
+##     colnames, dirname, do.call, duplicated, eval, evalq, Filter, Find,
+##     get, grep, grepl, intersect, is.unsorted, lapply, Map, mapply,
+##     match, mget, order, paste, pmax, pmax.int, pmin, pmin.int,
+##     Position, rank, rbind, Reduce, rownames, sapply, saveRDS, setdiff,
+##     table, tapply, union, unique, unsplit, which.max, which.min</code></pre>
 <pre><code>## Loading required package: Biobase</code></pre>
 <pre><code>## Welcome to Bioconductor
 ## 
 ##     Vignettes contain introductory material; view with
 ##     &#39;browseVignettes()&#39;. To cite Bioconductor, see
-##     &#39;citation(&quot;Biobase&quot;)&#39;, and for packages
-##     &#39;citation(&quot;pkgname&quot;)&#39;.</code></pre>
+##     &#39;citation(&quot;Biobase&quot;)&#39;, and for packages &#39;citation(&quot;pkgname&quot;)&#39;.</code></pre>
 <pre><code>## Loading required package: IRanges</code></pre>
 <pre><code>## Warning: package &#39;IRanges&#39; was built under R version 4.4.2</code></pre>
 <pre><code>## Loading required package: S4Vectors</code></pre>
@@ -426,10 +425,10 @@ library(ggplot2)</code></pre>
 ## 
 ## Please cite:
 ## 
-## T Wu, E Hu, S Xu, M Chen, P Guo, Z Dai, T Feng, L Zhou, W Tang, L
-## Zhan, X Fu, S Liu, X Bo, and G Yu. clusterProfiler 4.0: A
-## universal enrichment tool for interpreting omics data. The
-## Innovation. 2021, 2(3):100141</code></pre>
+## T Wu, E Hu, S Xu, M Chen, P Guo, Z Dai, T Feng, L Zhou, W Tang, L Zhan,
+## X Fu, S Liu, X Bo, and G Yu. clusterProfiler 4.0: A universal
+## enrichment tool for interpreting omics data. The Innovation. 2021,
+## 2(3):100141</code></pre>
 <pre><code>## 
 ## Attaching package: &#39;clusterProfiler&#39;</code></pre>
 <pre><code>## The following object is masked from &#39;package:AnnotationDbi&#39;:
@@ -453,9 +452,9 @@ library(ggplot2)</code></pre>
 ## 
 ## Please cite:
 ## 
-## Guangchuang Yu, Qing-Yu He. ReactomePA: an R/Bioconductor package
-## for reactome pathway analysis and visualization. Molecular
-## BioSystems. 2016, 12(2):477-479</code></pre>
+## Guangchuang Yu, Qing-Yu He. ReactomePA: an R/Bioconductor package for
+## reactome pathway analysis and visualization. Molecular BioSystems.
+## 2016, 12(2):477-479</code></pre>
 <pre class="r"><code>library(Gviz)</code></pre>
 <pre><code>## Loading required package: GenomicRanges</code></pre>
 <pre><code>## Loading required package: GenomeInfoDb</code></pre>
@@ -539,15 +538,21 @@ plot.margin = margin(10, 1, 1, 10) # Top, Right, Bottom, Left margins in points
 ## ✖ Problematic argument:
 ## • by = x
 ## ℹ Did you misspell an argument name?</code></pre>
-<pre><code>## Warning: `aes_string()` was deprecated in ggplot2 3.0.0.
-## ℹ Please use tidy evaluation idioms with `aes()`.
-## ℹ See also `vignette(&quot;ggplot2-in-packages&quot;)` for more information.
-## ℹ The deprecated feature was likely used in the enrichplot package.
+<pre><code>## Warning: `aes_string()` was deprecated in ggplot2
+## 3.0.0.
+## ℹ Please use tidy evaluation idioms with
+##   `aes()`.
+## ℹ See also
+##   `vignette(&quot;ggplot2-in-packages&quot;)` for
+##   more information.
+## ℹ The deprecated feature was likely used in
+##   the enrichplot package.
 ##   Please report the issue at
 ##   &lt;https://github.com/GuangchuangYu/enrichplot/issues&gt;.
-## This warning is displayed once every 8 hours.
-## Call `lifecycle::last_lifecycle_warnings()` to see where this warning was
-## generated.</code></pre>
+## This warning is displayed once every 8
+## hours.
+## Call `lifecycle::last_lifecycle_warnings()`
+## to see where this warning was generated.</code></pre>
 <p><img src="index_files/figure-html/unnamed-chunk-4-1.png" width="960" /></p>
 <pre class="r"><code># 2. Dot plot
 dotplot(enrichFrame,
