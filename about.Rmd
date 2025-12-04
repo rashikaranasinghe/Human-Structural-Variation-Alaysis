@@ -33,12 +33,12 @@ Understanding functional patterns within this inversion helps identify potential
 
 The workflow used on this site:
 
-1. **Define inversion coordinates**  
-2. **Retrieve genes from Ensembl**  
-3. **Visualize gene structure with gggenes and Gviz**  
-4. **Convert gene IDs to ENTREZ IDs**  
-5. **Run GO enrichment (BP, CC, MF)**  
-6. **Generate bar plots, dot plots, and network graphs**
+1. Define inversion coordinates
+2. Retrieve genes from Ensembl 
+3. Visualize gene structure with gggenes and Gviz
+4. Convert gene IDs to ENTREZ IDs
+5. Run GO enrichment (BP, CC, MF)  
+6. Generate bar plots, dot plots, and network graphs
 
 These steps provide a reproducible pipeline for functional annotation of structural variant regions.
 

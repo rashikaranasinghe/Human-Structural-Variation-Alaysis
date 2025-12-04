@@ -1,7 +1,6 @@
 name: "GO_Enrichment_Analysis"
 title: "GO Enrichment Analysis"
 output_dir: "docs"
-
 navbar:
   title: "GO Enrichment Analysis"
   left:
