@@ -1,7 +1,7 @@
 # Human-Structural-Variation-Alaysis
 A collection of analysis scripts and workflows for studying structural variation and adaptive evolution in the human genome.
 
-## 1. GO_Enrichment_Analysis
+### 1. GO_Enrichment_Analysis
 
 This project performs a **Gene Ontology (GO) enrichment analysis** for the genes located in the largest inversion in the human genome, **chr8p23.1** (approx. 4.5 Mb).  
 
